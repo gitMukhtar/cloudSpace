@@ -63,28 +63,6 @@ resource "aws_route_table_association" "main-public-1" {
   route_table_id = aws_route_table.main-public-1.id
 }
 
-# Create a Security Group
-#resource "aws_security_group" "allow-ssh" {
-#  vpc_id      = aws_vpc.main.id
-#  name        = "allow-ssh"
-# description = "security group that allows ssh and all egress traffic"
-#  egress {
-#    from_port   = 0
-#    to_port     = 0
-#    protocol    = "-1"
-#   cidr_blocks = ["0.0.0.0/0"]
-#}
-
-# ingress {
-#   from_port   = 22
-#   to_port     = 22
-#  protocol    = "tcp"
-#   cidr_blocks = ["0.0.0.0/0"]
-#}
-#  tags = {
-#   Name = "allow-ssh"
-# }
-#}
 
 resource "aws_security_group" "myinstance" {
   vpc_id      = aws_vpc.main.id
@@ -98,16 +76,9 @@ resource "aws_security_group" "myinstance" {
   }
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
     security_groups = [aws_security_group.elb-securitygroup.id]
   }
 
@@ -128,9 +99,9 @@ resource "aws_security_group" "elb-securitygroup" {
   }
 
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {

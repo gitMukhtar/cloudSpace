@@ -1,3 +1,8 @@
 .terraform
 mykey
 mykey.pub
+terraform.tfstate
+.terraform.tfstate.lock.info
+terraform.tfstate.backup
+vars.tfvars
+key.tf
