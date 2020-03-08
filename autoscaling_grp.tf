@@ -1,9 +1,10 @@
 resource "aws_launch_configuration" "launch_config" {
   name_prefix = "launch_config"
   image_id = var.AMIS[var.AWS_REGION]
-  instance_type = "t2.micro"
+  instance_type = var.INSTANCE_TYPE
   key_name = aws_key_pair.mykeypair.key_name
   security_groups = [aws_security_group.aws-sc-grp.id]
+
 }
 resource "aws_autoscaling_group" "auto_scaling_grp" {
   name                      = "auto_scaling_grp"
@@ -12,13 +13,13 @@ resource "aws_autoscaling_group" "auto_scaling_grp" {
   min_size                  = 2
   max_size                  = 2
   health_check_grace_period = 300
-  health_check_type         = "ALB"
-  load_balancers            = [aws_alb.my-alb.name]
+  health_check_type         = "ELB"
+  load_balancers            = [aws_elb.my-elb.name]
   force_delete              = true
 
   tag {
     key                 = "Name"
-    value               = "cloudSpace"
+    value               = "auto_scaling_grp"
     propagate_at_launch = true
   }
 }

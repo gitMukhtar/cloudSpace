@@ -1,10 +1,10 @@
 # Create a VPC for cloudSpace
 resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"
-  instance_tenancy     = "default"
-  enable_dns_support   = "true"
-  enable_dns_hostnames = "true"
-  enable_classiclink   = "false"
+  cidr_block           = var.vpc_cidr
+  instance_tenancy     = var.tenancy
+  enable_dns_support   = var.enable_dns_support
+  enable_dns_hostnames = var.enable_dns_hostnames
+  enable_classiclink   = var.enable_classiclink
   tags = {
     Name = "main"
   }
@@ -13,9 +13,9 @@ resource "aws_vpc" "main" {
 # Create a Public Subnet
 resource "aws_subnet" "main-public-1" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
-  map_public_ip_on_launch = "true"
-  availability_zone       = "us-east-2a"
+  cidr_block              = var.pub_subnet_1_cidr
+  map_public_ip_on_launch = var.map_pub_ip_on_launch_true
+  availability_zone       = var.az_a
 
   tags = {
     Name = "main-public-1"
@@ -25,9 +25,9 @@ resource "aws_subnet" "main-public-1" {
 # Create a Public Subnet
 resource "aws_subnet" "main-public-2" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.2.0/24"
-  map_public_ip_on_launch = "true"
-  availability_zone       = "us-east-2b"
+  cidr_block              = var.pub_subnet_2_cidr
+  map_public_ip_on_launch = var.map_pub_ip_on_launch_true
+  availability_zone       = var.az_b
 
   tags = {
     Name = "main-public-2"
@@ -48,7 +48,7 @@ resource "aws_internet_gateway" "main-gw" {
 resource "aws_route_table" "main-public-1" {
   vpc_id = aws_vpc.main.id
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = var.route_table_cidr
     gateway_id = aws_internet_gateway.main-gw.id
   }
 
