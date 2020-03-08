@@ -3,7 +3,7 @@ resource "aws_launch_configuration" "launch_config" {
   image_id = var.AMIS[var.AWS_REGION]
   instance_type = "t2.micro"
   key_name = aws_key_pair.mykeypair.key_name
-  security_groups = [aws_security_group.myinstance.id]
+  security_groups = [aws_security_group.aws-sc-grp.id]
 }
 resource "aws_autoscaling_group" "auto_scaling_grp" {
   name                      = "auto_scaling_grp"

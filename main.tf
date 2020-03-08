@@ -64,9 +64,9 @@ resource "aws_route_table_association" "main-public-1" {
 }
 
 
-resource "aws_security_group" "myinstance" {
+resource "aws_security_group" "aws-sc-grp" {
   vpc_id      = aws_vpc.main.id
-  name        = "myinstance"
+  name        = "aws-sc-grp"
   description = "security group for my instance"
   egress {
     from_port   = 0
@@ -79,17 +79,17 @@ resource "aws_security_group" "myinstance" {
     from_port       = 0
     to_port         = 0
     protocol        = "-1"
-    security_groups = [aws_security_group.lb-securitygroup.id]
+    security_groups = [aws_security_group.lb-security-group.id]
   }
 
   tags = {
-    Name = "myinstance"
+    Name = "aws-sc-grp"
   }
 }
 
-resource "aws_security_group" "lb-securitygroup" {
+resource "aws_security_group" "lb-security-group" {
   vpc_id      = aws_vpc.main.id
-  name        = "lb"
+  name        = "lb-sc-grp"
   description = "security group for load balancer"
   egress {
     from_port   = 0
@@ -105,6 +105,6 @@ resource "aws_security_group" "lb-securitygroup" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "lb"
+    Name = "lb-sc-grp"
   }
 }

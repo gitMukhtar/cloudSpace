@@ -2,7 +2,7 @@
 resource "aws_elb" "my-elb" {
   name            = "my-elb"
   subnets         = [aws_subnet.main-public-1.id, aws_subnet.main-public-2.id]
-  security_groups = [aws_security_group.lb-securitygroup.id]
+  security_groups = [aws_security_group.lb-security-group.id]
   listener {
     instance_port     = 80
     instance_protocol = "http"
@@ -29,7 +29,7 @@ resource "aws_elb" "my-elb" {
 resource "aws_alb" "my-alb" {
   name= "my-alb"
   subnets         = [aws_subnet.main-public-1.id, aws_subnet.main-public-2.id]
-  security_groups = [aws_security_group.lb-securitygroup.id]
+  security_groups = [aws_security_group.lb-security-group.id]
 
 }
 resource "aws_alb_target_group" "alb-target-group" {
