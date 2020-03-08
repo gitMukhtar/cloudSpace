@@ -79,7 +79,7 @@ resource "aws_security_group" "myinstance" {
     from_port       = 0
     to_port         = 0
     protocol        = "-1"
-    security_groups = [aws_security_group.elb-securitygroup.id]
+    security_groups = [aws_security_group.lb-securitygroup.id]
   }
 
   tags = {
@@ -87,9 +87,9 @@ resource "aws_security_group" "myinstance" {
   }
 }
 
-resource "aws_security_group" "elb-securitygroup" {
+resource "aws_security_group" "lb-securitygroup" {
   vpc_id      = aws_vpc.main.id
-  name        = "elb"
+  name        = "lb"
   description = "security group for load balancer"
   egress {
     from_port   = 0
@@ -105,6 +105,6 @@ resource "aws_security_group" "elb-securitygroup" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "elb"
+    Name = "lb"
   }
 }

@@ -4,10 +4,10 @@ resource "aws_key_pair" "mykeypair" {
 }
 
 variable "AWS_ACCESS_KEY" {
-  default = "AKIAXSWBQQFDOQFM6JHD"
+  default = "AKIAXSWBQQFDAIXJ5DT7"
 }
 
 variable "AWS_SECRET_KEY" {
-  default = "MliUlL/c/zgCbV3IRTz5draj1OYTUTPmIOTocsaR"
+  default = "F/oEc6KTOsoAU54X5OV4W6OM0uIBqEzqRZZlE6OP"
 
 }

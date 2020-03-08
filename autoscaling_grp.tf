@@ -3,8 +3,7 @@ resource "aws_launch_configuration" "launch_config" {
   image_id = var.AMIS[var.AWS_REGION]
   instance_type = "t2.micro"
   key_name = aws_key_pair.mykeypair.key_name
-  security_groups = [
-    aws_security_group.myinstance.id]
+  security_groups = [aws_security_group.myinstance.id]
 }
 resource "aws_autoscaling_group" "auto_scaling_grp" {
   name                      = "auto_scaling_grp"
@@ -13,8 +12,8 @@ resource "aws_autoscaling_group" "auto_scaling_grp" {
   min_size                  = 2
   max_size                  = 2
   health_check_grace_period = 300
-  health_check_type         = "ELB"
-  load_balancers            = [aws_elb.my-elb.name]
+  health_check_type         = "ALB"
+  load_balancers            = [aws_alb.my-alb.name]
   force_delete              = true
 
   tag {

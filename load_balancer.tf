@@ -1,7 +1,8 @@
+#Elastic Load Balancer
 resource "aws_elb" "my-elb" {
   name            = "my-elb"
   subnets         = [aws_subnet.main-public-1.id, aws_subnet.main-public-2.id]
-  security_groups = [aws_security_group.elb-securitygroup.id]
+  security_groups = [aws_security_group.lb-securitygroup.id]
   listener {
     instance_port     = 80
     instance_protocol = "http"
@@ -21,5 +22,33 @@ resource "aws_elb" "my-elb" {
   connection_draining_timeout = 400
   tags = {
     Name = "my-elb"
+  }
+}
+
+#Application Load Balancer
+resource "aws_alb" "my-alb" {
+  name= "my-alb"
+  subnets         = [aws_subnet.main-public-1.id, aws_subnet.main-public-2.id]
+  security_groups = [aws_security_group.lb-securitygroup.id]
+
+}
+resource "aws_alb_target_group" "alb-target-group" {
+  name= "alb-target-group"
+  port=80
+  protocol = "HTTP"
+  vpc_id = aws_vpc.main.id
+
+}
+resource "aws_alb_target_group_attachment" "alb-attachment" {
+  target_group_arn = aws_alb_target_group.alb-target-group.arn
+  target_id = ""
+}
+
+resource "aws_alb_listener" "alb-listener" {
+  load_balancer_arn = aws_alb.my-alb.arn
+  port = 80
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.alb-target-group.arn
   }
 }
