@@ -70,3 +70,15 @@ variable "cidr_for_allow_access" {
   default = "0.0.0.0/0"
 }
 
+# Auto Scaling Properties:
+
+variable "ins_min_size" {
+  default = "2"
+}
+variable "ins_max_size" {
+  default = "2"
+}
+variable "hltchk_grace_period" {
+  default = "300"
+}
+

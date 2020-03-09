@@ -10,9 +10,9 @@ resource "aws_autoscaling_group" "auto_scaling_grp" {
   name                      = "auto_scaling_grp"
   vpc_zone_identifier       = [aws_subnet.main-public-1.id, aws_subnet.main-public-2.id]
   launch_configuration      = aws_launch_configuration.launch_config.name
-  min_size                  = 2
-  max_size                  = 2
-  health_check_grace_period = 300
+  min_size                  = var.ins_min_size
+  max_size                  = var.ins_max_size
+  health_check_grace_period = var.hltchk_grace_period
   health_check_type         = "ELB"
   load_balancers            = [aws_elb.my-elb.name]
   force_delete              = true
