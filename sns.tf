@@ -1,4 +1,4 @@
-# Uncomment if you want to have autoscaling notifications
+# autoscaling notifications
 #resource "aws_sns_topic" "as-sns" {
 #  name         = "sg-sns"
 #  display_name = "example ASG SNS topic"

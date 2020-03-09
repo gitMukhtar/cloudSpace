@@ -81,4 +81,7 @@ variable "ins_max_size" {
 variable "hltchk_grace_period" {
   default = "300"
 }
+variable "user_data_file" {
+  default  = "${file("userdata.sh")}}"
+}
 

@@ -4,6 +4,7 @@ resource "aws_launch_configuration" "launch_config" {
   instance_type = var.INSTANCE_TYPE
   key_name = aws_key_pair.mykeypair.key_name
   security_groups = [aws_security_group.aws-sc-grp.id]
+  user_data = file(var.user_data_file)
 
 }
 resource "aws_autoscaling_group" "auto_scaling_grp" {
