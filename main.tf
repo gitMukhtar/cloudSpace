@@ -40,7 +40,7 @@ resource "aws_internet_gateway" "main-gw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "main"
+    Name = "main-gw"
   }
 }
 
@@ -57,10 +57,27 @@ resource "aws_route_table" "main-public-1" {
   }
 }
 
+resource "aws_route_table" "main-public-2" {
+  vpc_id = aws_vpc.main.id
+  route {
+    cidr_block = var.route_table_cidr
+    gateway_id = aws_internet_gateway.main-gw.id
+  }
+
+  tags = {
+    Name = "main-public-2"
+  }
+}
+
 # Create route associations public
-resource "aws_route_table_association" "main-public-1" {
+resource "aws_route_table_association" "main-rt-1" {
   subnet_id      = aws_subnet.main-public-1.id
   route_table_id = aws_route_table.main-public-1.id
+}
+
+resource "aws_route_table_association" "main-rt-2" {
+  subnet_id      = aws_subnet.main-public-2.id
+  route_table_id = aws_route_table.main-public-2.id
 }
 
 
@@ -82,11 +99,30 @@ resource "aws_security_group" "aws-sc-grp" {
     security_groups = [aws_security_group.lb-security-group.id]
   }
 
+  ingress {
+        from_port   = "22"
+        to_port     = "22"
+        protocol    = "TCP"
+    }
+
+  ingress {
+    from_port       = 8080
+    to_port         = 8080
+    protocol        = "TCP"
+    security_groups = [aws_security_group.lb-security-group.id]
+  }
+
+  egress {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
   tags = {
     Name = "aws-sc-grp"
   }
 }
-
 resource "aws_security_group" "lb-security-group" {
   vpc_id      = aws_vpc.main.id
   name        = "lb-sc-grp"
@@ -99,11 +135,12 @@ resource "aws_security_group" "lb-security-group" {
   }
 
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
   tags = {
     Name = "lb-sc-grp"
   }

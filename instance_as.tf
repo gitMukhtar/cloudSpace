@@ -5,7 +5,6 @@ resource "aws_launch_configuration" "launch_config" {
   key_name = aws_key_pair.mykeypair.key_name
   security_groups = [aws_security_group.aws-sc-grp.id]
   user_data = file(var.user_data_file)
-
 }
 resource "aws_autoscaling_group" "auto_scaling_grp" {
   name                      = "auto_scaling_grp"
@@ -15,14 +14,15 @@ resource "aws_autoscaling_group" "auto_scaling_grp" {
   max_size                  = var.ins_max_size
   health_check_grace_period = var.hltchk_grace_period
   health_check_type         = "ELB"
-  load_balancers            = [aws_elb.my-elb.name]
+  target_group_arns         = [aws_lb_target_group.myAlbTG.arn]
   force_delete              = true
 
   tag {
     key                 = "Name"
-    value               = "auto_scaling_grp"
+    value               = "cloudSpace"
     propagate_at_launch = true
   }
+
 }
 
 # scale up alarm

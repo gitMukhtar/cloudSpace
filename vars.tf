@@ -10,13 +10,6 @@ variable "AMIS" {
     eu-west-1 = "ami-0d729a60"
   }
 }
-variable "PATH_TO_PRIVATE_KEY"{
- default = "/Users/alfia/Desktop/cloudSpace/mykey"
-}
-
-variable "PATH_TO_PUBLIC_KEY" {
-  default = "/Users/alfia/Desktop/cloudSpace/mykey.pub"
-}
 
 variable "INSTANCE_TYPE" {
   default = "t2.micro"
@@ -82,6 +75,12 @@ variable "hltchk_grace_period" {
   default = "300"
 }
 variable "user_data_file" {
-  default  = "${file("userdata.sh")}}"
+  default = "userdata.sh"
+  type = string
 }
+variable "key_pair_name" {
+  default = "mykey"
+  type = string
+}
+
 

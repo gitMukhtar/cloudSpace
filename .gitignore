@@ -4,3 +4,4 @@ mykey.pub
 terraform.tfstate
 .terraform.tfstate.lock.info
 terraform.tfstate.backup
+key.tf
